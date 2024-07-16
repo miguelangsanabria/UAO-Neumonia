@@ -1,4 +1,5 @@
 Entrega realizada por Miguel Angel Sanabria Rodriguez - Código 2240373
+
 Para la asignatura de Desarrollo de Proyectos de IA
 
 ## Hola! Bienvenido a la herramienta para la detección rápida de neumonía
