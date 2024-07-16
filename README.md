@@ -1,3 +1,6 @@
+Entrega realizada por Miguel Angel Sanabria Rodriguez - Código 2240373
+Para la asignatura de Desarrollo de Proyectos de IA
+
 ## Hola! Bienvenido a la herramienta para la detección rápida de neumonía
 
 Deep Learning aplicado en el procesamiento de imágenes radiográficas de tórax en formato DICOM con el fin de clasificarlas en 3 categorías diferentes:
