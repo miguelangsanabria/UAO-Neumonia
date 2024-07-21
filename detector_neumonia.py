@@ -14,11 +14,10 @@ import img2pdf
 import numpy as np
 import time
 import tensorflow as tf
-
 tf.compat.v1.disable_eager_execution()
 tf.compat.v1.experimental.output_all_intermediates(True)
 import cv2
-
+import pydicom as dicom
 
 def grad_cam(array):
     img = preprocess(array)
@@ -70,7 +69,7 @@ def predict(array):
 
 
 def read_dicom_file(path):
-    img = dicom.read_file(path)
+    img = dicom.dcmread(path)
     img_array = img.pixel_array
     img2show = Image.fromarray(img_array)
     img2 = img_array.astype(float)
