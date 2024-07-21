@@ -3,8 +3,8 @@
 
 from tkinter import *
 from tkinter import ttk, font, filedialog, Entry
-
 from tkinter.messagebox import askokcancel, showinfo, WARNING
+from tensorflow.keras import backend as K
 import getpass
 from PIL import ImageTk, Image
 import csv
@@ -14,14 +14,17 @@ import img2pdf
 import numpy as np
 import time
 import tensorflow as tf
+
 tf.compat.v1.disable_eager_execution()
 tf.compat.v1.experimental.output_all_intermediates(True)
 import cv2
 import pydicom as dicom
 
+
 def model_fun():
-    model_cnn = tf.keras.models.load_model('conv_MLP_84.h5')
+    model_cnn = tf.keras.models.load_model("conv_MLP_84.h5")
     return model_cnn
+
 
 def grad_cam(array):
     img = preprocess(array)
@@ -207,7 +210,7 @@ class App:
     def run_model(self):
         self.label, self.proba, self.heatmap = predict(self.array)
         self.img2 = Image.fromarray(self.heatmap)
-        self.img2 = self.img2.resize((250, 250), Image.ANTIALIAS)
+        self.img2 = self.img2.resize((250, 250), Image.Resampling.LANCZOS)
         self.img2 = ImageTk.PhotoImage(self.img2)
         print("OK")
         self.text_img2.image_create(END, image=self.img2)
