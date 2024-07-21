@@ -19,6 +19,10 @@ tf.compat.v1.experimental.output_all_intermediates(True)
 import cv2
 import pydicom as dicom
 
+def model_fun():
+    model_cnn = tf.keras.models.load_model('conv_MLP_84.h5')
+    return model_cnn
+
 def grad_cam(array):
     img = preprocess(array)
     model = model_fun()
@@ -53,7 +57,6 @@ def predict(array):
     batch_array_img = preprocess(array)
     #   2. call function to load model and predict: it returns predicted class and probability
     model = model_fun()
-    # model_cnn = tf.keras.models.load_model('conv_MLP_84.h5')
     prediction = np.argmax(model.predict(batch_array_img))
     proba = np.max(model.predict(batch_array_img)) * 100
     label = ""
