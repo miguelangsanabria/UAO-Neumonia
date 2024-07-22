@@ -201,7 +201,11 @@ class App:
             ),
         )
         if filepath:
-            self.array, img2show = read_dicom_file(filepath)
+            file_extension = filepath.split('.')[-1].lower()
+            if file_extension == 'dcm':
+                self.array, img2show = read_dicom_file(filepath)
+            elif file_extension in ['jpg', 'jpeg', 'png']:
+                self.array, img2show = read_jpg_file(filepath)
             self.img1 = img2show.resize((250, 250), Image.Resampling.LANCZOS)
             self.img1 = ImageTk.PhotoImage(self.img1)
             self.text_img1.image_create(END, image=self.img1)
