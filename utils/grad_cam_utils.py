@@ -1,3 +1,10 @@
+"""
+grad_cam_utils.py
+-----------------
+
+Este módulo contiene la función `grad_cam` que genera un mapa de calor sobre una imagen utilizando la técnica Grad-CAM.
+"""
+
 import cv2
 import numpy as np
 from tensorflow.keras import backend as K
@@ -10,6 +17,15 @@ tf.compat.v1.experimental.output_all_intermediates(True)
 
 
 def grad_cam(array):
+    """
+    Genera un mapa de calor (heatmap) utilizando la técnica Grad-CAM sobre la imagen proporcionada.
+
+    Args:
+        array (numpy.ndarray): La imagen de entrada en formato de matriz numpy.
+
+    Returns:
+        numpy.ndarray: La imagen original superpuesta con el mapa de calor.
+    """
     img = preprocess(array)
     model = model_fun()
     preds = model.predict(img)

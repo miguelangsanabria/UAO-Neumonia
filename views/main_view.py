@@ -1,3 +1,10 @@
+"""
+main_view.py
+------------
+
+Este módulo contiene la clase App que maneja la interfaz gráfica de usuario para la herramienta de detección rápida de neumonía.
+"""
+
 from tkinter import *
 from tkinter import ttk, font, filedialog
 from tkinter.messagebox import askokcancel, showinfo, WARNING
@@ -10,7 +17,26 @@ from utils.grad_cam_utils import grad_cam
 
 
 class App:
+    """
+    Clase que representa la aplicación principal con la interfaz gráfica de usuario.
+
+    Atributos:
+        root (tk.Tk): La ventana principal de la aplicación.
+        lab1, lab2, lab3, lab4, lab5, lab6 (ttk.Label): Etiquetas de la interfaz.
+        ID (StringVar): Variable para almacenar el ID del paciente.
+        result (StringVar): Variable para almacenar el resultado de la predicción.
+        text1 (ttk.Entry): Campo de entrada para el ID del paciente.
+        text_img1, text_img2 (Text): Campos de texto para mostrar las imágenes.
+        text2, text3 (Text): Campos de texto para mostrar los resultados.
+        button1, button2, button3, button4, button6 (ttk.Button): Botones de la interfaz.
+        array (numpy.ndarray): Arreglo para almacenar la imagen cargada.
+        reportID (int): Identificación del reporte para generar PDFs.
+    """
+
     def __init__(self):
+        """
+        Inicializa la clase App configurando la interfaz gráfica y los widgets.
+        """
         self.root = Tk()
         self.root.title("Herramienta para la detección rápida de neumonía")
 
@@ -93,6 +119,11 @@ class App:
 
     #   METHODS
     def load_img_file(self):
+        """
+        Abre un cuadro de diálogo para seleccionar una imagen y carga la imagen seleccionada.
+
+        Permite seleccionar archivos DICOM, JPEG, JPG y PNG. La imagen cargada se muestra en la interfaz.
+        """
         filepath = filedialog.askopenfilename(
             initialdir="/",
             title="Select image",
@@ -115,6 +146,11 @@ class App:
             self.button1["state"] = "enabled"
 
     def run_model(self):
+        """
+        Ejecuta el modelo de predicción sobre la imagen cargada y muestra los resultados en la interfaz.
+
+        La predicción incluye una etiqueta y una probabilidad, además de generar un heatmap.
+        """
         self.label, self.proba, self.heatmap = predict(self.array)
         self.img2 = Image.fromarray(self.heatmap)
         self.img2 = self.img2.resize((250, 250), Image.Resampling.LANCZOS)
@@ -125,6 +161,11 @@ class App:
         self.text3.insert(END, "{:.2f}".format(self.proba) + "%")
 
     def save_results_csv(self):
+        """
+        Guarda los resultados de la predicción en un archivo CSV.
+
+        Los datos guardados incluyen el ID del paciente, la etiqueta de la predicción y la probabilidad.
+        """
         with open("historial.csv", "a") as csvfile:
             w = csv.writer(csvfile, delimiter="-")
             w.writerow(
@@ -133,6 +174,11 @@ class App:
             showinfo(title="Guardar", message="Los datos se guardaron con éxito.")
 
     def create_pdf(self):
+        """
+        Captura la pantalla de la aplicación y genera un archivo PDF con la captura.
+
+        El archivo PDF se guarda en el directorio actual con un nombre basado en el ID del reporte.
+        """
         cap = tkcap.CAP(self.root)
         ID = "Reporte" + str(self.reportID) + ".jpg"
         img = cap.capture(ID)
@@ -144,6 +190,11 @@ class App:
         showinfo(title="PDF", message="El PDF fue generado con éxito.")
 
     def delete(self):
+        """
+        Borra todos los datos y restablece la interfaz de usuario a su estado inicial.
+
+        Solicita confirmación antes de borrar los datos.
+        """
         answer = askokcancel(
             title="Confirmación", message="Se borrarán todos los datos.", icon=WARNING
         )
